@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from openai import OpenAI
+import openai  # Adjusted import for clarity
 from pinecone import Pinecone
 
 # Initialize Streamlit secrets for API keys
@@ -8,41 +8,30 @@ os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 PINECONE_INDEX_NAME = "closedai"
 
-# Create OpenAI client
-client = OpenAI()
-
-# Create an assistant (verify if this is needed for your specific implementation)
-assistant = client.beta.assistants.create(
-    instructions="Assist in retrieving and analyzing documents by querying a Pinecone vector database.",
-    model="gpt-4-turbo-preview",
-    tools=[{"type": "code_interpreter"}]
-)
-
-# Initialize Pinecone client and index
+# Initialize OpenAI and Pinecone clients
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Ensure the API key is set for OpenAI
 pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX_NAME)
 
-# Define ThreadRunner class
 class ThreadRunner:
-    def __init__(self, client, index):
-        self.client = client
+    def __init__(self, index):
         self.index = index
 
     def query_pinecone(self, text_query):
-        # Generate query vector
-        embedding_response = client.Embeddings.create(
+        # Generate query vector using OpenAI Embedding model
+        embedding_response = openai.Embedding.create(
             model="text-embedding-ada-002",
             input=[text_query]
         )
         query_vector = embedding_response['data'][0]['embedding']
-        # Query Pinecone
+
+        # Query Pinecone with this vector
         results = self.index.query(vector=[query_vector], top_k=5, include_metadata=True)
         return results
 
-# Initialize runner globally
-runner = ThreadRunner(client, index)
+# Initialize the ThreadRunner instance right after its class definition
+runner = ThreadRunner(index)
 
-# Streamlit UI
 st.title('AI NCREIF Query Tool with Pinecone Integration')
 
 def run_query_and_display_results():
