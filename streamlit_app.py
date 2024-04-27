@@ -70,8 +70,7 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
             st.write(f"**User**: {user_query}")
         
         pinecone_results = runner.query_pinecone(user_query)
-        if pinecone_results and pinecone_results['matches']:
-            results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
+        if pinecone_results:
             ai_response = runner.generate_response(user_query, results_text)
             with st.container():
                 st.write(f"**Assistant**: {ai_response}")
