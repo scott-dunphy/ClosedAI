@@ -31,7 +31,7 @@ class ThreadRunner:
                 input=[text_query]
             )
             query_vector = embedding_response['data'][0]['embedding']
-            results = self.index.query(vector=query_vector, top_k=5, include_metadata=True)
+            results = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
             return results
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
@@ -49,10 +49,10 @@ class ThreadRunner:
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=150,
-                n=1,
+                max_tokens=500,
+                n=2,
                 stop=None,
-                temperature=0.7
+                temperature=0.2
             )
             return completion_response.choices[0].message.content.strip()
         except Exception as e:
