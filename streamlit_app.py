@@ -6,8 +6,8 @@ from pinecone import ServerlessSpec
 import time
 
 # Set API key and user credentials from Streamlit secrets
-os.environ["OPENAI_API_KEY"] = ""
-PINECONE_API_KEY = ""
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 PINECONE_INDEX_NAME = "closedai"
 
 client = OpenAI()
