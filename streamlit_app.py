@@ -7,7 +7,7 @@ from pinecone import Pinecone
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
-PINECONE_INDEX_NAME = "closedai"
+PINECONE_INDEX_NAME = st.secrets["PINECONE_INDEX_NAME"]
 
 # Initialize Pinecone client and index
 try:
@@ -57,6 +57,7 @@ runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
+# Function to handle the query input and generate responses
 def handle_query(user_query):
     if user_query:
         with st.chat_message("user"):
@@ -72,4 +73,5 @@ def handle_query(user_query):
             with st.chat_message("assistant"):
                 st.markdown("No relevant documents found. Please refine your query or try different keywords.")
 
-user_query = st.chat_input("Enter your query:", on_submit=handle_query)
+# Use chat_input to send the user's query to the handle_query function
+st.chat_input("Enter your query:", on_submit=handle_query)
