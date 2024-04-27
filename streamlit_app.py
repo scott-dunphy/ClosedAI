@@ -3,7 +3,7 @@ import streamlit as st
 import openai
 from pinecone import Pinecone
 
-# Initialize Streamlit secrets for API keys
+# Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
@@ -57,7 +57,7 @@ runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
-def handle_query(user_query):
+def handle_query(user_query):  # Ensure this function is correctly receiving 'user_query'
     if user_query:
         with st.container():
             st.write(f"**User**: {user_query}")
@@ -72,5 +72,4 @@ def handle_query(user_query):
             with st.container():
                 st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
 
-# Ensure that handle_query is correctly receiving and handling user input
-st.chat_input("Enter your query:", on_submit=handle_query)
+st.chat_input("Enter your query:", on_submit=handle_query)  # Make sure on_submit is linked correctly
