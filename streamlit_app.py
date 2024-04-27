@@ -44,15 +44,15 @@ class ThreadRunner:
         try:
             prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
             completion_response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+                model="gpt-4-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=500,
-                n=2,
+                n=1,
                 stop=None,
-                temperature=0.2
+                temperature=0.7
             )
             return completion_response.choices[0].message.content.strip()
         except Exception as e:
