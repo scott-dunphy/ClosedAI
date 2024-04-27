@@ -7,7 +7,7 @@ from pinecone import Pinecone
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
-PINECONE_INDEX_NAME = "closedai"
+PINECONE_INDEX_NAME = st.secrets["PINECONE_INDEX_NAME"]
 
 # Initialize Pinecone client and index
 try:
@@ -63,17 +63,19 @@ runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
-# Chat container for displaying messages
-chat_container = st.chat()
+# Chat history
+chat_history = []
 
-def handle_query(user_query):
+def handle_query():
+    user_query = st.session_state.user_input
     if user_query:
         # Validate and sanitize user input
         user_query = user_query.strip()
         if not user_query:
             return
 
-        chat_container.user_message(user_query)
+        # Add user query to chat history
+        chat_history.append(("User", user_query))
 
         # First, we query Pinecone to get relevant documents
         pinecone_results = runner.query_pinecone(user_query)
@@ -81,7 +83,17 @@ def handle_query(user_query):
             results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
             # Generate a response based on Pinecone's results
             ai_response = runner.generate_response(user_query, results_text)
-            chat_container.system_message(ai_response)
+            # Add AI response to chat history
+            chat_history.append(("Assistant", ai_response))
+
+        st.session_state.user_input = ""  # Clear the input field
 
 # User input for the chat
-st.chat_input("Enter your query:", on_submit=handle_query)
+st.text_input("Enter your query:", key="user_input", on_change=handle_query)
+
+# Display chat history
+for role, message in chat_history:
+    if role == "User":
+        st.markdown(f"**{role}:** {message}")
+    else:
+        st.markdown(f"{message}")
