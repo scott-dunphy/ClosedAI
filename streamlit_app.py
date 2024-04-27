@@ -7,7 +7,7 @@ from pinecone import Pinecone
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
-PINECONE_INDEX_NAME = st.secrets["PINECONE_INDEX_NAME"]
+PINECONE_INDEX_NAME = "closedai"
 
 # Initialize Pinecone client and index
 try:
