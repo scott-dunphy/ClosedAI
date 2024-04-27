@@ -23,7 +23,7 @@ class ThreadRunner:
 
     def query_pinecone(self, text_query):
         try:
-            embedding_response = openai.Embedding.create(
+            embedding_response = client.embeddings.create(
                 model="text-embedding-ada-002",
                 input=[text_query]
             )
