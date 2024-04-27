@@ -20,8 +20,7 @@ except Exception as e:
 class ThreadRunner:
     def __init__(self, index_name):
         self.index_name = index_name
-        self.api_key = PINECONE_API_KEY
-        self.client = Pinecone.from_api_key(api_key)
+        self.client = Pinecone.from_api_key(PINECONE_API_KEY)
         self.index = self.client.Index(index_name)
 
     def query_pinecone(self, text_query):
