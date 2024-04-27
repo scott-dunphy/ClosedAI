@@ -1,49 +1,87 @@
 import os
 import streamlit as st
-import openai  # Adjusted import for clarity
+import openai
 from pinecone import Pinecone
 
 # Initialize Streamlit secrets for API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+openai.api_key = os.getenv("OPENAI_API_KEY")
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 PINECONE_INDEX_NAME = "closedai"
 
-# Initialize OpenAI and Pinecone clients
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Ensure the API key is set for OpenAI
-pc = Pinecone(api_key=PINECONE_API_KEY)
-index = pc.Index(PINECONE_INDEX_NAME)
+# Initialize Pinecone client and index
+try:
+    pc = Pinecone(api_key=PINECONE_API_KEY)
+    index = pc.Index(PINECONE_INDEX_NAME)
+except Exception as e:
+    st.error(f"Error initializing Pinecone: {str(e)}")
+    st.stop()
 
 class ThreadRunner:
     def __init__(self, index):
         self.index = index
 
     def query_pinecone(self, text_query):
-        # Generate query vector using OpenAI Embedding model
-        embedding_response = openai.Embedding.create(
-            model="text-embedding-ada-002",
-            input=[text_query]
-        )
-        query_vector = embedding_response['data'][0]['embedding']
+        """
+        Generate query vector using OpenAI Embedding model and query Pinecone index.
+        """
+        try:
+            embedding_response = openai.Embedding.create(
+                model="text-embedding-ada-002",
+                input=[text_query]
+            )
+            query_vector = embedding_response['data'][0]['embedding']
+            results = self.index.query(vector=query_vector, top_k=5, include_metadata=True)
+            return results
+        except Exception as e:
+            st.error(f"Error querying Pinecone: {str(e)}")
+            return None
 
-        # Query Pinecone with this vector
-        results = self.index.query(vector=[query_vector], top_k=5, include_metadata=True)
-        return results
+    def generate_response(self, user_query, pinecone_results):
+        """
+        Generate a response using OpenAI's ChatCompletion model based on user query and Pinecone results.
+        """
+        try:
+            prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
+            completion_response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ],
+                max_tokens=150,
+                n=1,
+                stop=None,
+                temperature=0.7
+            )
+            return completion_response.choices[0].message.content.strip()
+        except Exception as e:
+            st.error(f"Error generating response: {str(e)}")
+            return "Sorry, I couldn't generate a response. Please try again."
 
-# Initialize the ThreadRunner instance right after its class definition
 runner = ThreadRunner(index)
 
-st.title('AI NCREIF Query Tool with Pinecone Integration')
+st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
-def run_query_and_display_results():
-    query = st.session_state.get('query', '')
-    if query:
-        try:
-            results = runner.query_pinecone(query)
-            st.session_state['results'] = results if results else "No results found."
-        except Exception as e:
-            st.session_state['results'] = f"Error querying Pinecone: {str(e)}"
+# Chat container for displaying messages
+chat_container = st.chat()
 
-query = st.text_input("Enter your query:", key="query", on_change=run_query_and_display_results)
+def handle_query(user_query):
+    if user_query:
+        # Validate and sanitize user input
+        user_query = user_query.strip()
+        if not user_query:
+            return
 
-if 'results' in st.session_state:
-    st.write("Results:", st.session_state['results'])
+        chat_container.user_message(user_query)
+
+        # First, we query Pinecone to get relevant documents
+        pinecone_results = runner.query_pinecone(user_query)
+        if pinecone_results:
+            results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
+            # Generate a response based on Pinecone's results
+            ai_response = runner.generate_response(user_query, results_text)
+            chat_container.system_message(ai_response)
+
+# User input for the chat
+st.chat_input("Enter your query:", on_submit=handle_query)
