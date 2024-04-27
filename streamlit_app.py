@@ -35,8 +35,8 @@ class ThreadRunner:
             if results['matches']:
                 formatted_results = [match['metadata']['text'] for match in results['matches']]
                 response = "\n".join(formatted_results)
-
-            return results
+            st.write(response)
+            return response
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
             return None
