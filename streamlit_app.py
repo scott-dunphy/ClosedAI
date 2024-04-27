@@ -42,6 +42,10 @@ class ThreadRunner:
         results = index.query(vector=[query_vector], top_k=5, include_metadata=True)
         return results
 
+# Initialize the ThreadRunner instance right after its class definition
+runner = ThreadRunner(client, index)
+
+
 st.title('AI NCREIF Query Tool with Pinecone Integration')
 
 def run_query_and_display_results():
