@@ -62,20 +62,18 @@ class ThreadRunner:
 runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
-
 def handle_query(user_query):  # Ensure this function is correctly receiving 'user_query'
     if user_query:
         with st.container():
             st.write(f"**User**: {user_query}")
-        
-        pinecone_results = runner.query_pinecone(user_query)
-        if pinecone_results:
-            ai_response = runner.generate_response(user_query, pinecone_results)
-            with st.container():
-                st.write(f"**Assistant**: {ai_response}")
-        else:
-            with st.container():
-                st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
+            pinecone_results = runner.query_pinecone(user_query)
+            if pinecone_results:
+                ai_response = runner.generate_response(user_query, pinecone_results)
+                with st.container():
+                    st.write(f"**Assistant**: {ai_response}")
+            else:
+                with st.container():
+                    st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
 
 user_query = st.chat_input("Enter your query:")
 if user_query:
