@@ -31,7 +31,7 @@ class ThreadRunner:
                 input=[text_query]
             )
             query_vector = embedding_response['data'][0]['embedding']
-            results = self.index.query(vector=[query_vector], top_k=6, include_metadata=True)
+            results = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
             return results
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
@@ -63,37 +63,21 @@ runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
-# Chat history
-if 'chat_history' not in st.session_state:
-    st.session_state.chat_history = []
+# Chat interface
+chat_container = st.chat()
 
-# User input
-user_query = st.text_input("Enter your query:")
-
-if st.button("Send"):
+def handle_query(user_query):
     if user_query:
-        # Validate and sanitize user input
-        user_query = user_query.strip()
-        if not user_query:
-            st.warning("Please enter a valid query.")
+        chat_container.user_message(user_query)
+        # First, we query Pinecone to get relevant documents
+        pinecone_results = runner.query_pinecone(user_query)
+        if pinecone_results and pinecone_results['matches']:
+            results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
+            # Generate a response based on Pinecone's results
+            ai_response = runner.generate_response(user_query, results_text)
+            chat_container.system_message(ai_response)
         else:
-            # Add user query to chat history
-            st.session_state.chat_history.append(("User", user_query))
+            chat_container.system_message("No relevant documents found. Please refine your query or try different keywords.")
 
-            # First, we query Pinecone to get relevant documents
-            pinecone_results = runner.query_pinecone(user_query)
-            if pinecone_results:
-                results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
-                # Generate a response based on Pinecone's results
-                ai_response = runner.generate_response(user_query, results_text)
-                # Add AI response to chat history
-                st.session_state.chat_history.append(("Assistant", ai_response))
-            else:
-                st.warning("No relevant documents found.")
-
-# Display chat history
-for role, message in st.session_state.chat_history:
-    if role == "User":
-        st.markdown(f"**{role}:** {message}")
-    else:
-        st.markdown(f"{message}")
+# User input for the chat
+st.chat_input("Enter your query:", on_submit=handle_query)
