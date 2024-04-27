@@ -49,7 +49,7 @@ class ThreadRunner:
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=500,
+                max_tokens=250,
                 n=1,
                 stop=None,
                 temperature=0.7
