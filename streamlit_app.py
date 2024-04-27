@@ -64,35 +64,35 @@ runner = ThreadRunner(index)
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
 # Chat history
-chat_history = []
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
 
-def handle_query():
-    user_query = st.session_state.user_input
+# User input
+user_query = st.text_input("Enter your query:")
+
+if st.button("Send"):
     if user_query:
         # Validate and sanitize user input
         user_query = user_query.strip()
         if not user_query:
-            return
+            st.warning("Please enter a valid query.")
+        else:
+            # Add user query to chat history
+            st.session_state.chat_history.append(("User", user_query))
 
-        # Add user query to chat history
-        chat_history.append(("User", user_query))
-
-        # First, we query Pinecone to get relevant documents
-        pinecone_results = runner.query_pinecone(user_query)
-        if pinecone_results:
-            results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
-            # Generate a response based on Pinecone's results
-            ai_response = runner.generate_response(user_query, results_text)
-            # Add AI response to chat history
-            chat_history.append(("Assistant", ai_response))
-
-        st.session_state.user_input = ""  # Clear the input field
-
-# User input for the chat
-st.text_input("Enter your query:", key="user_input", on_change=handle_query)
+            # First, we query Pinecone to get relevant documents
+            pinecone_results = runner.query_pinecone(user_query)
+            if pinecone_results:
+                results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
+                # Generate a response based on Pinecone's results
+                ai_response = runner.generate_response(user_query, results_text)
+                # Add AI response to chat history
+                st.session_state.chat_history.append(("Assistant", ai_response))
+            else:
+                st.warning("No relevant documents found.")
 
 # Display chat history
-for role, message in chat_history:
+for role, message in st.session_state.chat_history:
     if role == "User":
         st.markdown(f"**{role}:** {message}")
     else:
