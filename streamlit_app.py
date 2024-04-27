@@ -32,6 +32,7 @@ class ThreadRunner:
             )
             query_vector = embedding_response.data[0].embedding
             results = index.query(vector=query_vector, top_k=6, include_metadata=True)
+            st.write(results)
             return results
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
