@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-import openai
+from openai import OpenAI
 from pinecone import Pinecone
 from pinecone import ServerlessSpec
 import time
