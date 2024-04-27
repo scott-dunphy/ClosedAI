@@ -40,7 +40,7 @@ class ThreadRunner:
     def generate_response(self, user_query, pinecone_results):
         try:
             prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
-            completion_response = openai.ChatCompletion.create(
+            completion_response = client.chat.completions.create(
                 model="gpt-4-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
