@@ -22,9 +22,6 @@ class ThreadRunner:
         self.index = index
 
     def query_pinecone(self, text_query):
-        """
-        Generate query vector using OpenAI Embedding model and query Pinecone index.
-        """
         try:
             embedding_response = openai.Embedding.create(
                 model="text-embedding-ada-002",
@@ -38,9 +35,6 @@ class ThreadRunner:
             return None
 
     def generate_response(self, user_query, pinecone_results):
-        """
-        Generate a response using OpenAI's ChatCompletion model based on user query and Pinecone results.
-        """
         try:
             prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
             completion_response = openai.ChatCompletion.create(
@@ -63,21 +57,19 @@ runner = ThreadRunner(index)
 
 st.title('AI NCREIF Query Tool with Pinecone Integration and Chat Completions')
 
-# Chat interface
-chat_container = st.chat()
-
 def handle_query(user_query):
     if user_query:
-        chat_container.user_message(user_query)
-        # First, we query Pinecone to get relevant documents
+        with st.chat_message("user"):
+            st.markdown(user_query)
+        
         pinecone_results = runner.query_pinecone(user_query)
         if pinecone_results and pinecone_results['matches']:
             results_text = "\n".join([f"ID: {match['id']}, Score: {match['score']}" for match in pinecone_results['matches']])
-            # Generate a response based on Pinecone's results
             ai_response = runner.generate_response(user_query, results_text)
-            chat_container.system_message(ai_response)
+            with st.chat_message("assistant"):
+                st.markdown(ai_response)
         else:
-            chat_container.system_message("No relevant documents found. Please refine your query or try different keywords.")
+            with st.chat_message("assistant"):
+                st.markdown("No relevant documents found. Please refine your query or try different keywords.")
 
-# User input for the chat
-st.chat_input("Enter your query:", on_submit=handle_query)
+user_query = st.chat_input("Enter your query:", on_submit=handle_query)
