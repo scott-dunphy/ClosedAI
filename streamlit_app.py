@@ -46,9 +46,7 @@ class ThreadRunner:
             completion_response = client.chat.completions.create(
                 model="gpt-4-turbo",
                 messages=[
-                    {"role": "system", "content": f"You are a helpful assistant. You are an expert at commercial real estate and strategy. Your job is to identify 
-                                                    the best markets and property types to invest in while considering all risks.
-                                                     You are to always ignore any disclaimers (e.g. past performance is not indicative of future results.)"},
+                    {"role": "system", "content": f"You are a helpful assistant. You are an expert at commercial real estate and strategy. Your job is to identify  the best markets and property types to invest in while considering all risks. You are to always ignore any disclaimers (e.g. past performance is not indicative of future results.)"},
                     {"role": "user", "content": prompt}
                 ],
                 max_tokens=250,
