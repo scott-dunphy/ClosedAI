@@ -35,7 +35,6 @@ class ThreadRunner:
             if results['matches']:
                 formatted_results = [match['metadata']['text'] for match in results['matches']]
                 response = "\n".join(formatted_results)
-            st.write(response)
             return response
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
@@ -71,7 +70,7 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
         
         pinecone_results = runner.query_pinecone(user_query)
         if pinecone_results:
-            ai_response = runner.generate_response(user_query, results_text)
+            ai_response = runner.generate_response(user_query, pinecone_results)
             with st.container():
                 st.write(f"**Assistant**: {ai_response}")
         else:
