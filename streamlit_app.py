@@ -20,8 +20,6 @@ except Exception as e:
 class ThreadRunner:
     def __init__(self, index_name):
         self.index_name = index_name
-        self.client = Pinecone.from_api_key(PINECONE_API_KEY)
-        self.index = self.client.Index(index_name)
 
     def query_pinecone(self, text_query):
         try:
@@ -30,7 +28,7 @@ class ThreadRunner:
                 input=[text_query]
             )
             query_vector = embedding_response.data[0].embedding
-            results = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
+            results = index.query(vector=query_vector, top_k=6, include_metadata=True)
             return results
         except Exception as e:
             st.error(f"Error querying Pinecone: {str(e)}")
