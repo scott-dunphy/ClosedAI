@@ -27,7 +27,7 @@ class ThreadRunner:
                 model="text-embedding-ada-002",
                 input=[text_query]
             )
-            query_vector = embedding_response['data'][0]['embedding']
+            query_vector = embedding_response.data[0].embedding
             results = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
             return results
         except Exception as e:
