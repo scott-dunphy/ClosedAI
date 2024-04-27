@@ -72,4 +72,4 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
             with st.container():
                 st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
 
-st.chat_input("Enter your query:", on_submit=handle_query)  # Make sure on_submit is linked correctly
+st.chat_input("Enter your query:", on_submit=lambda user_query: handle_query(user_query))
