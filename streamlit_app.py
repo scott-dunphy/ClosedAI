@@ -26,7 +26,7 @@ pc = Pinecone(api_key=PINECONE_API_KEY)
 index = pc.Index(PINECONE_INDEX_NAME)
 
 class ThreadRunner:
-    def __init__(self, client):
+    def __init__(self, client, index):
         self.client = client
         self.thread = None
 
