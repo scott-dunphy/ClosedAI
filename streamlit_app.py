@@ -27,6 +27,18 @@ with st.sidebar:
     st.title('Pinned Responses')
     selected_response = st.radio('Select a pinned response:', list(pinned_responses.keys()))
 
+# Initialize session state for pinned responses
+if 'pinned_responses' not in st.session_state:
+    st.session_state.pinned_responses = {}
+
+# Initialize session state for pinned responses
+if 'pinned_responses' not in st.session_state:
+    st.session_state.pinned_responses = {}
+
+# Function to pin a new response
+def pin_response(title, content):
+    st.session_state.pinned_responses[title] = content
+    st.experimental_rerun()
 
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
@@ -97,7 +109,7 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            pinned_responses[output[:20]]=output
+            pin_response(output[:20], output)
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
