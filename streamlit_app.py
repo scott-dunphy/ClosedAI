@@ -29,7 +29,7 @@ if 'pinned_responses' not in st.session_state:
 # Function to pin a new response
 def pin_response(title, content):
     st.session_state.pinned_responses[title] = content
-    display_pinned_responses.clear()
+    display_pinned_responses()
 
 @st.cache_data(experimental_allow_widgets=True)
 def display_pinned_responses():
