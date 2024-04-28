@@ -9,7 +9,7 @@ st.markdown(
     <style>
     h1 {
         font-size: 24px;
-        color: blue;
+        color: #3c9ed9;
         text-align: left;
         padding: 10px;
     }
