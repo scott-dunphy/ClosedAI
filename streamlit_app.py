@@ -8,8 +8,8 @@ st.markdown(
     """
     <style>
     .css-1y0tads {
-        font-size: 36px;
-        color: #ff0000;
+        font-size: 24px;
+        color: blue;
         text-align: center;
         background-color: #f0f0f0;
         padding: 10px;
