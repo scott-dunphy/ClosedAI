@@ -4,6 +4,22 @@ import openai
 from openai import OpenAI
 from pinecone import Pinecone
 
+st.markdown(
+    """
+    <style>
+    .css-1y0tads {
+        font-size: 36px;
+        color: #ff0000;
+        text-align: center;
+        background-color: #f0f0f0;
+        padding: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 openai.api_key = os.getenv("OPENAI_API_KEY")
