@@ -19,9 +19,7 @@ st.markdown(
 
 # Pinned responses
 pinned_responses = {
-    'Response 1': 'This is the content of pinned response 1.',
-    'Response 2': 'This is the content of pinned response 2.',
-    'Response 3': 'This is the content of pinned response 3.'
+  
 }
 
 # Sidebar container
@@ -98,7 +96,9 @@ class ThreadRunner:
                 stop=None,
                 temperature=0.2
             )
-            return completion_response.choices[0].message.content.strip()
+            output = completion_response.choices[0].message.content.strip()
+            pinned_responses[left[output:20]]=output
+            return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
             return "Sorry, I couldn't generate a response. Please try again."
