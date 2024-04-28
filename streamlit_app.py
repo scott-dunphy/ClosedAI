@@ -22,6 +22,9 @@ pinned_responses = {
   
 }
 
+with st.sidebar:
+        st.title('Pinned Responses')
+
 # Initialize session state for pinned responses
 if 'pinned_responses' not in st.session_state:
     st.session_state.pinned_responses = {}
