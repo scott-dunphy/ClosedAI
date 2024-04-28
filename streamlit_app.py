@@ -131,7 +131,7 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
                 with st.container():
                     st.write(f"**Assistant**: {ai_response}")
                 first_sentence = ai_response.split('.')[0]
-                unique_title = f"{user_query[:20]}_{first_sentence}"
+                unique_title = f"{user_query}_{first_sentence}"
                 pin_response(unique_title, ai_response)
             else:
                 with st.container():
