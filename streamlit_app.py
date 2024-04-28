@@ -11,7 +11,6 @@ st.markdown(
         font-size: 24px;
         color: #3c9ed9;
         text-align: left;
-        padding: 10px;
     }
     </style>
     """,
