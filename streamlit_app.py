@@ -79,7 +79,7 @@ class ThreadRunner:
 
 runner = ThreadRunner(index)
 
-st.title('-- Investment Insider --')
+st.title('//InvestmentInsider')
 def handle_query(user_query):  # Ensure this function is correctly receiving 'user_query'
     if user_query:
         with st.container():
