@@ -123,7 +123,7 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
                 with st.container():
                     st.write(f"**Assistant**: {ai_response}")
                 unique_title = f"{user_query[:20]}_{ai_response[:20]}"
-                pin_response(unique_title, ai_response)
+                #pin_response(unique_title, ai_response)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
