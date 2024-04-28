@@ -34,18 +34,20 @@ def pin_response(title, content):
     st.session_state.pinned_responses[title] = content
     display_pinned_responses()
 
-@st.cache_data(experimental_allow_widgets=True)
+#@st.cache_data(experimental_allow_widgets=True)
 def display_pinned_responses():
     with st.sidebar:
-        selected_responses = st.session_state.get("selected_responses", [])
+        st.title('Pinned Responses')
         for title, content in st.session_state.pinned_responses.items():
-            checked = st.checkbox(title, key=f"checkbox_{title}", value=title in selected_responses)
-            if checked and title not in selected_responses:
-                selected_responses.append(title)
-            elif not checked and title in selected_responses:
-                selected_responses.remove(title)
-        
-        st.session_state["selected_responses"] = selected_responses
+            checked = st.checkbox(title, key=f"checkbox_{title}", value=st.session_state.get(f"checkbox_{title}", False))
+            st.session_state[f"checkbox_{title}"] = checked
+
+        if st.button("Perform Action"):
+            # Perform the desired action with the selected responses
+            selected_titles = [title for title, content in st.session_state.pinned_responses.items() if st.session_state.get(f"checkbox_{title}")]
+            st.write("Selected Responses:")
+            for title in selected_titles:
+                st.write(f"- {title}")
         
 
 # Set up the API keys
