@@ -18,6 +18,18 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Pinned responses
+pinned_responses = {
+    'Response 1': 'This is the content of pinned response 1.',
+    'Response 2': 'This is the content of pinned response 2.',
+    'Response 3': 'This is the content of pinned response 3.'
+}
+
+# Sidebar container
+with st.sidebar:
+    st.title('Pinned Responses')
+    selected_response = st.radio('Select a pinned response:', list(pinned_responses.keys()))
+
 
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
