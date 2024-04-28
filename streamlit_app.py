@@ -31,10 +31,6 @@ with st.sidebar:
 if 'pinned_responses' not in st.session_state:
     st.session_state.pinned_responses = {}
 
-# Initialize session state for pinned responses
-if 'pinned_responses' not in st.session_state:
-    st.session_state.pinned_responses = {}
-
 # Function to pin a new response
 def pin_response(title, content):
     st.session_state.pinned_responses[title] = content
@@ -126,7 +122,8 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
                 ai_response = runner.generate_response(user_query, pinecone_results)
                 with st.container():
                     st.write(f"**Assistant**: {ai_response}")
-                    pin_response(ai_response[:20], ai_response)
+                    unique_title = f"{user_query[:20]}_{ai_response[:20]}"
+                    pin_response(unique_title, ai_response)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
@@ -134,3 +131,8 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
 user_query = st.chat_input("Enter your query:")
 if user_query:
     handle_query(user_query)
+
+# Display the selected pinned response
+if selected_response:
+    st.subheader(selected_response)
+    st.write(st.session_state.pinned_responses[selected_response])
