@@ -22,11 +22,6 @@ pinned_responses = {
   
 }
 
-# Sidebar container
-with st.sidebar:
-    st.title('Pinned Responses')
-    selected_response = st.radio('Select a pinned response:', list(pinned_responses.keys()))
-
 # Initialize session state for pinned responses
 if 'pinned_responses' not in st.session_state:
     st.session_state.pinned_responses = {}
@@ -40,9 +35,15 @@ def pin_response(title, content):
 def display_pinned_responses():
     with st.sidebar:
         st.title('Pinned Responses')
+        selected_responses = {}
         for title, content in st.session_state.pinned_responses.items():
-            st.subheader(title)
-            st.write(content)
+            if st.checkbox(title, key=f"checkbox_{title}", value=title in st.session_state.get("selected_responses", {})):
+                selected_responses[title] = content
+            else:
+                if title in st.session_state.get("selected_responses", {}):
+                    del st.session_state["selected_responses"][title]
+        
+        st.session_state["selected_responses"] = selected_responses
 
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
