@@ -35,15 +35,12 @@ def pin_response(title, content):
 def display_pinned_responses():
     with st.sidebar:
         st.title('Pinned Responses')
-        selected_responses = {}
         for title, content in st.session_state.pinned_responses.items():
-            if st.checkbox(title, key=f"checkbox_{title}", value=title in st.session_state.get("selected_responses", {})):
-                selected_responses[title] = content
-            else:
-                if title in st.session_state.get("selected_responses", {}):
-                    del st.session_state["selected_responses"][title]
+            st.checkbox(title, key=f"checkbox_{title}", value=title in st.session_state.get("selected_responses", {}))
         
+        selected_responses = [title for title, content in st.session_state.pinned_responses.items() if st.session_state.get(f"checkbox_{title}")]
         st.session_state["selected_responses"] = selected_responses
+        
 
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
