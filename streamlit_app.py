@@ -10,8 +10,7 @@ st.markdown(
     h1 {
         font-size: 24px;
         color: blue;
-        text-align: center;
-        background-color: #f0f0f0;
+        text-align: left;
         padding: 10px;
     }
     </style>
