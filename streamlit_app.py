@@ -49,7 +49,7 @@ class ThreadRunner:
                 input=[text_query]
             )
             query_vector = embedding_response.data[0].embedding
-            results = index.query(vector=query_vector, top_k=6, include_metadata=True)
+            results = index.query(vector=query_vector, top_k=8, include_metadata=True)
             if results['matches']:
                 formatted_results = [match['metadata']['text'] for match in results['matches']]
                 response = "\n".join(formatted_results)
@@ -67,7 +67,7 @@ class ThreadRunner:
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
                 ],
-                max_tokens=250,
+                max_tokens=500,
                 n=1,
                 stop=None,
                 temperature=0.7
