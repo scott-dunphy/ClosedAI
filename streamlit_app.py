@@ -97,7 +97,7 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            pinned_responses[left[output:20]]=output
+            pinned_responses[output[:20]=output]
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
