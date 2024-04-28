@@ -34,7 +34,15 @@ if 'pinned_responses' not in st.session_state:
 # Function to pin a new response
 def pin_response(title, content):
     st.session_state.pinned_responses[title] = content
-    st.experimental_rerun()
+    display_pinned_responses.clear()
+
+@st.experimental_memo
+def display_pinned_responses():
+    with st.sidebar:
+        st.title('Pinned Responses')
+        for title, content in st.session_state.pinned_responses.items():
+            st.subheader(title)
+            st.write(content)
 
 # Set up the API keys
 os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
