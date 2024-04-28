@@ -37,7 +37,6 @@ def pin_response(title, content):
 @st.cache_data(experimental_allow_widgets=True)
 def display_pinned_responses():
     with st.sidebar:
-        st.title('Pinned Responses')
         selected_responses = st.session_state.get("selected_responses", [])
         for title, content in st.session_state.pinned_responses.items():
             checked = st.checkbox(title, key=f"checkbox_{title}", value=title in selected_responses)
