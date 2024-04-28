@@ -7,7 +7,7 @@ from pinecone import Pinecone
 st.markdown(
     """
     <style>
-    .css-1y0tads {
+    h1 {
         font-size: 24px;
         color: blue;
         text-align: center;
