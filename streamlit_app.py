@@ -31,7 +31,7 @@ def pin_response(title, content):
     st.session_state.pinned_responses[title] = content
     display_pinned_responses.clear()
 
-@st.experimental_memo
+@st.cache_data(experimental_allow_widgets=True)
 def display_pinned_responses():
     with st.sidebar:
         st.title('Pinned Responses')
