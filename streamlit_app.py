@@ -138,5 +138,3 @@ user_query = st.chat_input("Enter your query:")
 if user_query:
     handle_query(user_query)
 
-# Display the selected pinned response
-display_pinned_responses()
