@@ -141,6 +141,4 @@ if user_query:
     handle_query(user_query)
 
 # Display the selected pinned response
-if selected_response:
-    st.subheader(selected_response)
-    st.write(st.session_state.pinned_responses[selected_response])
+display_pinned_responses()
