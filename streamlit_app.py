@@ -35,10 +35,14 @@ def pin_response(title, content):
 def display_pinned_responses():
     with st.sidebar:
         st.title('Pinned Responses')
+        selected_responses = st.session_state.get("selected_responses", [])
         for title, content in st.session_state.pinned_responses.items():
-            st.checkbox(title, key=f"checkbox_{title}", value=title in st.session_state.get("selected_responses", {}))
+            checked = st.checkbox(title, key=f"checkbox_{title}", value=title in selected_responses)
+            if checked and title not in selected_responses:
+                selected_responses.append(title)
+            elif not checked and title in selected_responses:
+                selected_responses.remove(title)
         
-        selected_responses = [title for title, content in st.session_state.pinned_responses.items() if st.session_state.get(f"checkbox_{title}")]
         st.session_state["selected_responses"] = selected_responses
         
 
