@@ -109,7 +109,6 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            pin_response(output[:20], output)
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
@@ -127,6 +126,7 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
                 ai_response = runner.generate_response(user_query, pinecone_results)
                 with st.container():
                     st.write(f"**Assistant**: {ai_response}")
+                    pin_response(ai_response[:20], ai_response)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
