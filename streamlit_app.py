@@ -70,7 +70,7 @@ class ThreadRunner:
                 max_tokens=500,
                 n=1,
                 stop=None,
-                temperature=0.7
+                temperature=0.2
             )
             return completion_response.choices[0].message.content.strip()
         except Exception as e:
