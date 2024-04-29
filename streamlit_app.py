@@ -151,3 +151,5 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
 user_query = st.chat_input("Enter your query:")
 if user_query:
     handle_query(user_query)
+
+display_pinned_responses()
