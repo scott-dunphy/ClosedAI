@@ -22,37 +22,33 @@ pinned_responses = {
   
 }
 
+# Sample sidebar setup with a title
 with st.sidebar:
-        st.title('Pinned Responses')
+    st.title('Pinned Responses')
 
-# Initialize session state for pinned responses
+# Initialize session state for pinned responses and selected responses
 if 'pinned_responses' not in st.session_state:
-    st.session_state.pinned_responses = {}
+    st.session_state.pinned_responses = {"Response 1": "Content 1", "Response 2": "Content 2"}
 
-# Function to pin a new response
-def pin_response(title, content):
-    st.session_state.pinned_responses[title] = content
-    display_pinned_responses()
+if 'selected_responses' not in st.session_state:
+    st.session_state.selected_responses = list(st.session_state.pinned_responses.keys())
 
-@st.cache_data(experimental_allow_widgets=True)
+# Function to manage checkboxes and display content
 def display_pinned_responses():
     with st.sidebar:
-        selected_responses = st.session_state.get("selected_responses", [])
+        # Display all checkboxes, irrespective of their check state
         for title, content in st.session_state.pinned_responses.items():
-            checked = st.checkbox(title, key=f"checkbox_{title}", value=title in selected_responses)
+            checked = st.checkbox(title, key=f"checkbox_{title}", value=title in st.session_state.selected_responses)
             if checked:
-                if title not in selected_responses:
-                    selected_responses.append(title)
+                if title not in st.session_state.selected_responses:
+                    st.session_state.selected_responses.append(title)
             else:
-                if title in selected_responses:
-                    selected_responses.remove(title)
+                if title in st.session_state.selected_responses:
+                    st.session_state.selected_responses.remove(title)
 
-        # Always update the state to reflect the current selections
-        st.session_state["selected_responses"] = selected_responses
-
-        # Display content based on selected responses
-        for title in selected_responses:
-            st.write(f"Content for {title}: {st.session_state.pinned_responses[title]}")
+    # Display content for all checked responses, regardless of checkbox changes until an update
+    for title in st.session_state.selected_responses:
+        st.write(f"{title}: {st.session_state.pinned_responses[title]}")
 
         
 
