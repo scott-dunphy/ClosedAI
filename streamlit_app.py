@@ -28,7 +28,7 @@ with st.sidebar:
 
 # Initialize session state for pinned responses and selected responses
 if 'pinned_responses' not in st.session_state:
-    st.session_state.pinned_responses = {"Response 1": "Content 1", "Response 2": "Content 2"}
+    st.session_state.pinned_responses = {}
 
 if 'selected_responses' not in st.session_state:
     st.session_state.selected_responses = list(st.session_state.pinned_responses.keys())
