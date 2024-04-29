@@ -35,6 +35,7 @@ def update_message(message):
 with st.sidebar:
     st.title('Pinned Responses')
     if st.button('Update Message'):
+        message = f""
         for title in st.session_state.selected_responses:
             message += f"{title}: {st.session_state.pinned_responses[title]}" + "\n\n"
 
