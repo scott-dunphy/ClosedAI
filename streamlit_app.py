@@ -25,6 +25,9 @@ pinned_responses = {
 # Sample sidebar setup with a title
 with st.sidebar:
     st.title('Pinned Responses')
+    if st.button("Display pinned converations"):
+        for title in st.session_state.selected_responses:
+            st.write(f"{title}: {st.session_state.pinned_responses[title]}")
 
 # Initialize session state for pinned responses and selected responses
 if 'pinned_responses' not in st.session_state:
@@ -50,9 +53,7 @@ def display_pinned_responses():
                 if title in st.session_state.selected_responses:
                     st.session_state.selected_responses.remove(title)
 
-if st.button("Display pinned converations"):
-    for title in st.session_state.selected_responses:
-        st.write(f"{title}: {st.session_state.pinned_responses[title]}")
+
 
         
 
