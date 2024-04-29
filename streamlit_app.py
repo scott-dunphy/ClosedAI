@@ -36,6 +36,7 @@ with st.sidebar:
     st.title('Pinned Responses')
     if st.button('Update Message'):
         update_message()  # Call the function when the button is clicked
+st.write(st.session_state.message)
 
 # Initialize session state for pinned responses and selected responses
 if 'pinned_responses' not in st.session_state:
