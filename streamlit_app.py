@@ -22,12 +22,20 @@ pinned_responses = {
   
 }
 
+# Check if the 'message' is already in the session state, if not, initialize it
+if 'message' not in st.session_state:
+    st.session_state.message = ""
+
+# Function to update the message
+def update_message():
+    st.session_state.message = "Hello, this message is updated by clicking the button in the sidebar!"
+
+
 # Sample sidebar setup with a title
 with st.sidebar:
     st.title('Pinned Responses')
-    if st.button("Display pinned converations"):
-        for title in st.session_state.selected_responses:
-            st.write(f"{title}: {st.session_state.pinned_responses[title]}")
+    if st.button('Update Message'):
+        update_message()  # Call the function when the button is clicked
 
 # Initialize session state for pinned responses and selected responses
 if 'pinned_responses' not in st.session_state:
@@ -52,7 +60,6 @@ def display_pinned_responses():
             else:
                 if title in st.session_state.selected_responses:
                     st.session_state.selected_responses.remove(title)
-
 
 
         
