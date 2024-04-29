@@ -40,12 +40,20 @@ def display_pinned_responses():
         selected_responses = st.session_state.get("selected_responses", [])
         for title, content in st.session_state.pinned_responses.items():
             checked = st.checkbox(title, key=f"checkbox_{title}", value=title in selected_responses)
-            if checked and title not in selected_responses:
-                selected_responses.append(title)
-            elif not checked and title in selected_responses:
-                selected_responses.remove(title)
-        
+            if checked:
+                if title not in selected_responses:
+                    selected_responses.append(title)
+            else:
+                if title in selected_responses:
+                    selected_responses.remove(title)
+
+        # Always update the state to reflect the current selections
         st.session_state["selected_responses"] = selected_responses
+
+        # Display content based on selected responses
+        for title in selected_responses:
+            st.write(f"Content for {title}: {st.session_state.pinned_responses[title]}")
+
         
 
 # Set up the API keys
