@@ -33,6 +33,10 @@ if 'pinned_responses' not in st.session_state:
 if 'selected_responses' not in st.session_state:
     st.session_state.selected_responses = list(st.session_state.pinned_responses.keys())
 
+def pin_response(title, content):
+    st.session_state.pinned_responses[title] = content
+    display_pinned_responses()
+    
 # Function to manage checkboxes and display content
 def display_pinned_responses():
     with st.sidebar:
