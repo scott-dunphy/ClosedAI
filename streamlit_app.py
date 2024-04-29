@@ -50,7 +50,7 @@ def display_pinned_responses():
                 if title in st.session_state.selected_responses:
                     st.session_state.selected_responses.remove(title)
 
-    # Display content for all checked responses, regardless of checkbox changes until an update
+if st.button("Display pinned converations"):
     for title in st.session_state.selected_responses:
         st.write(f"{title}: {st.session_state.pinned_responses[title]}")
 
