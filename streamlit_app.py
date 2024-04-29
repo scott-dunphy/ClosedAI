@@ -27,15 +27,17 @@ if 'message' not in st.session_state:
     st.session_state.message = ""
 
 # Function to update the message
-def update_message():
-    st.session_state.message = "Hello, this message is updated by clicking the button in the sidebar!"
+def update_message(message):
+    st.session_state.message = message
 
 
 # Sample sidebar setup with a title
 with st.sidebar:
     st.title('Pinned Responses')
     if st.button('Update Message'):
-        update_message()  # Call the function when the button is clicked
+        message = f"{title}: {st.session_state.pinned_responses[title]}"
+        update_message(message)  # Call the function when the button is clicked
+
 st.write(st.session_state.message)
 
 # Initialize session state for pinned responses and selected responses
