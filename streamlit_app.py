@@ -191,8 +191,9 @@ def handle_query(user_query):
                     # Generate and display follow-up question buttons
                     follow_up_questions = generate_follow_up_questions(ai_response)
                     for question in follow_up_questions:
-                        if st.button(question):
-                            handle_query(question)
+                        for x in question.split("|"):
+                            if st.button(x):
+                                handle_query(x)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
