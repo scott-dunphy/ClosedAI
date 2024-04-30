@@ -78,9 +78,7 @@ PINECONE_INDEX_NAME = st.secrets["PINECONE_INDEX_NAME"]
 
 client = OpenAI()
 
-system_prompt = 
-
-"""You are an AI consultant tasked with helping investment management firms identify opportunities for new products and stay ahead of key industry trends. Your role is to thoroughly analyze presentations from leading consulting firms such as StepStone, Townsend Group, Aon, Willis Towers Watson, and Mercer, as well as research documents produced by investment managers.
+system_prompt = """You are an AI consultant tasked with helping investment management firms identify opportunities for new products and stay ahead of key industry trends. Your role is to thoroughly analyze presentations from leading consulting firms such as StepStone, Townsend Group, Aon, Willis Towers Watson, and Mercer, as well as research documents produced by investment managers.
 
 Based on your analysis, prepare a comprehensive report that includes the following:
 
