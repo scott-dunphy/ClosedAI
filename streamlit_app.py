@@ -136,25 +136,25 @@ class ThreadRunner:
             st.error(f"Error querying Pinecone: {str(e)}")
             return None
 
-    def generate_response(self, user_query, pinecone_results):
-        try:
-            prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
-            completion_response = client.chat.completions.create(
-                model="gpt-4-turbo",
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=500,
-                n=1,
-                stop=None,
-                temperature=0.2
-            )
-            output = completion_response.choices[0].message.content.strip()
-            return output
-        except Exception as e:
-            st.error(f"Error generating response: {str(e)}")
-            return "Sorry, I couldn't generate a response. Please try again."
+def generate_response(self, user_query, pinecone_results):
+    try:
+        prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
+        completion_response = client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=500,
+            n=1,
+            stop=None,
+            temperature=0.2
+        )
+        output = completion_response.choices[0].message.content.strip()
+        return output
+    except Exception as e:
+        st.error(f"Error generating response: {str(e)}")
+        return "Sorry, I couldn't generate a response. Please try again."
 
     def generate_follow_up_questions(ai_response):
         prompt = f"Based on the following response, generate two recommended follow-up questions:\n\n{ai_response}\n\nFollow-up questions:"
