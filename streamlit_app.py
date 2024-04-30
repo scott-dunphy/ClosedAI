@@ -190,7 +190,7 @@ def handle_query(user_query):
                     
                     # Generate and display follow-up question buttons
                     follow_up_questions = generate_follow_up_questions(ai_response)
-                    for question in follow_up_questions.split("|"):
+                    for question in follow_up_questions:
                         if st.button(question):
                             handle_query(question)
             else:
