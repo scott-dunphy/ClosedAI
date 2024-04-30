@@ -139,29 +139,46 @@ class ThreadRunner:
             return None
 
     def generate_response(self, user_query, pinecone_results):
-        try:
-            prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
-            completion_response = client.chat.completions.create(
-                model="gpt-4-turbo",
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=500,
-                n=1,
-                stop=None,
-                temperature=0.2
-            )
-            output = completion_response.choices[0].message.content.strip()
-            return output
-        except Exception as e:
-            st.error(f"Error generating response: {str(e)}")
-            return "Sorry, I couldn't generate a response. Please try again."
+    try:
+        prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
+        completion_response = client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=500,
+            n=1,
+            stop=None,
+            temperature=0.2
+        )
+        output = completion_response.choices[0].message.content.strip()
+        return output
+    except Exception as e:
+        st.error(f"Error generating response: {str(e)}")
+        return "Sorry, I couldn't generate a response. Please try again."
+
+def generate_follow_up_questions(ai_response):
+    prompt = f"Based on the following response, generate two recommended follow-up questions:\n\n{ai_response}\n\nFollow-up questions:"
+    completion_response = client.chat.completions.create(
+        model="gpt-4-turbo",
+        messages=[
+            {"role": "system", "content": "You are an AI assistant that generates follow-up questions based on a given response."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=100,
+        n=2,
+        stop=None,
+        temperature=0.7
+    )
+    follow_up_questions = [choice.message.content.strip() for choice in completion_response.choices]
+    return follow_up_questions
 
 runner = ThreadRunner(index)
 
 st.title('//InvestmentInsider')
-def handle_query(user_query):  # Ensure this function is correctly receiving 'user_query'
+
+def handle_query(user_query):
     if user_query:
         with st.container():
             st.write(f"**User**: {user_query}")
@@ -170,8 +187,14 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
                 ai_response = runner.generate_response(user_query, pinecone_results)
                 with st.container():
                     st.write(f"**Assistant**: {ai_response}")
-                first_sentence = ai_response.split('.')[0]
-                pin_response(user_query, first_sentence)
+                    first_sentence = ai_response.split('.')[0]
+                    pin_response(user_query, first_sentence)
+                    
+                    # Generate and display follow-up question buttons
+                    follow_up_questions = generate_follow_up_questions(ai_response)
+                    for question in follow_up_questions:
+                        if st.button(question):
+                            handle_query(question)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
@@ -179,7 +202,5 @@ def handle_query(user_query):  # Ensure this function is correctly receiving 'us
 user_query = st.chat_input("Enter your query:")
 if user_query:
     handle_query(user_query)
-    
 
 display_pinned_responses()
-
