@@ -165,7 +165,7 @@ def generate_follow_up_questions(ai_response):
             {"role": "user", "content": prompt}
         ],
         max_tokens=100,
-        n=2,
+        n=1,
         stop=None,
         temperature=0.7
     )
