@@ -157,7 +157,7 @@ class ThreadRunner:
             return "Sorry, I couldn't generate a response. Please try again."
 
 def generate_follow_up_questions(ai_response):
-    prompt = f"Based on the following response, generate two pipe delimited recommended follow-up questions:\n\n{ai_response}\n\nFollow-up questions:"
+    prompt = f"Based on the following response, generate two recommended follow-up questions (separate them with a '|'):\n\n{ai_response}\n\nFollow-up questions:"
     completion_response = client.chat.completions.create(
         model="gpt-4-turbo",
         messages=[
