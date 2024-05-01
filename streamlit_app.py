@@ -3,6 +3,7 @@ import streamlit as st
 import openai
 from openai import OpenAI
 from pinecone import Pinecone
+import tts
 
 #st.title('\\\\ MetLife Market Monitor')
 
