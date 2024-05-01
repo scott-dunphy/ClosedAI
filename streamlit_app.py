@@ -6,6 +6,8 @@ from pinecone import Pinecone
 
 st.title('\\\\ MetLife Market Monitor')
 
+generated_content_container = st.empty()
+
 st.markdown(
     """
     <style>
@@ -181,7 +183,7 @@ runner = ThreadRunner(index)
 
 def handle_query(user_query):
     if user_query:
-        with st.container():
+        with generated_content_container.container():
             st.write(f"**User**: {user_query}")
             pinecone_results = runner.query_pinecone(user_query)
             if pinecone_results:
@@ -198,6 +200,7 @@ def handle_query(user_query):
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
+
 
 user_query = st.chat_input("Enter your query:")
 if user_query:
