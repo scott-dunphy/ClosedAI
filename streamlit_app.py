@@ -4,6 +4,8 @@ import openai
 from openai import OpenAI
 from pinecone import Pinecone
 
+st.title('\\ MetLife Market Monitor')
+
 st.markdown(
     """
     <style>
@@ -175,7 +177,7 @@ def generate_follow_up_questions(ai_response):
 
 runner = ThreadRunner(index)
 
-st.title('//InvestmentInsider')
+
 
 def handle_query(user_query):
     if user_query:
