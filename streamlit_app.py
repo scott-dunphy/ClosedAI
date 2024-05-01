@@ -192,9 +192,7 @@ def handle_query(user_query):
                     # Generate and display follow-up question buttons
                     follow_up_questions = generate_follow_up_questions(ai_response)
                     for question in follow_up_questions:
-                        if st.button(question):
-                            user_query = st.chat_input("Enter your follow-up query:", value=question)
-                            handle_query(user_query)
+                        st.button(question, key=f"follow_up_{question}", on_click=handle_query, args=(question,))
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
