@@ -4,6 +4,7 @@ from openai import OpenAI
 from io import BytesIO
 
 def text_to_speech(text):
+    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
     client = OpenAI()
     
     # Create a BytesIO object to store the audio data
@@ -24,19 +25,3 @@ def text_to_speech(text):
     
     return audio_buffer
 
-# Streamlit app code
-st.title("Text to Speech")
-
-# Get the text input from the user
-text = st.text_area("Enter the text to convert to speech:")
-
-# Button to trigger text-to-speech conversion
-if st.button("Convert to Speech"):
-    if text:
-        # Convert text to speech
-        audio_buffer = text_to_speech(text)
-        
-        # Play the audio in the Streamlit app
-        st.audio(audio_buffer, format='audio/mpeg')
-    else:
-        st.warning("Please enter some text to convert to speech.")
