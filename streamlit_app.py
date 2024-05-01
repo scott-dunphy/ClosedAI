@@ -4,6 +4,7 @@ import openai
 from openai import OpenAI
 from pinecone import Pinecone
 
+st.title('\\ MetLife Market Monitor')
 
 st.markdown(
     """
@@ -198,7 +199,7 @@ def handle_query(user_query, response_container):
                 with response_container.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
 
-st.title('\\ MetLife Market Monitor')
+st.title('//InvestmentInsider')
 
 # Create a placeholder for the generated content
 response_container = st.empty()
