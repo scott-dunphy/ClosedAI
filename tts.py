@@ -5,7 +5,6 @@ from io import BytesIO
 import os
 
 def text_to_speech(text):
-    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
     client = OpenAI()
     
     # Create a BytesIO object to store the audio data
@@ -18,11 +17,10 @@ def text_to_speech(text):
         input=text
     )
     
-    # Stream the audio data to the BytesIO object
-    response.stream_to_buffer(audio_buffer)
+    # Write the response content to the BytesIO object
+    audio_buffer.write(response.content)
     
     # Reset the buffer's position to the beginning
     audio_buffer.seek(0)
     
     return audio_buffer
-
