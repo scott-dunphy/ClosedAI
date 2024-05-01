@@ -74,7 +74,7 @@ def display_pinned_responses():
                 if title in st.session_state.selected_responses:
                     st.session_state.selected_responses.remove(title)
 
-def generate_audio(audio_text)
+def generate_audio(audio_text):
     if audio_text:
         pass
     return
