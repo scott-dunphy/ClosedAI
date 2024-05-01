@@ -169,12 +169,8 @@ def generate_follow_up_questions(ai_response):
         stop=None,
         temperature=0.7
     )
-    follow_up_questions = [choice.message.content.strip() for choice in completion_response.choices]
+    follow_up_questions = completion_response.choices[0].message.content.strip().split("|")
     return follow_up_questions
-
-runner = ThreadRunner(index)
-
-st.title('//InvestmentInsider')
 
 def handle_query(user_query):
     if user_query:
@@ -187,14 +183,13 @@ def handle_query(user_query):
                     st.write(f"**Assistant**: {ai_response}")
                     first_sentence = ai_response.split('.')[0]
                     pin_response(user_query, first_sentence)
-                    
+
                     # Generate and display follow-up question buttons
                     follow_up_questions = generate_follow_up_questions(ai_response)
                     for question in follow_up_questions:
-                        for x in question.split("|"):
-                            if st.button(x):
-                                user_query = x
-                                handle_query(x)
+                        if st.button(question):
+                            user_query = st.chat_input("Enter your follow-up query:", value=question)
+                            handle_query(user_query)
             else:
                 with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
