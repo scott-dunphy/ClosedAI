@@ -3,10 +3,13 @@ import streamlit as st
 import openai
 from openai import OpenAI
 from pinecone import Pinecone
-import tts
+from tts import text_to_speech
 
 #st.title('\\\\ MetLife Market Monitor')
 
+if st.button("Generate audio"):
+    text_to_speech("Hello world!")
+    
 st.markdown(
     """
     <style>
