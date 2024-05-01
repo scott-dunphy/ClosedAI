@@ -15,6 +15,7 @@ st.markdown(
         text-align: left;
     }
     </style>
+    <h1>\\ MetLife Market Monitor</h1>
     """,
     unsafe_allow_html=True
 )
