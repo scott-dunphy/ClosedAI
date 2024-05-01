@@ -193,6 +193,7 @@ def handle_query(user_query):
                     for question in follow_up_questions:
                         for x in question.split("|"):
                             if st.button(x):
+                                user_query = x
                                 handle_query(x)
             else:
                 with st.container():
