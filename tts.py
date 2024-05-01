@@ -2,6 +2,7 @@ import streamlit as st
 from pathlib import Path
 from openai import OpenAI
 from io import BytesIO
+import os
 
 def text_to_speech(text):
     os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
