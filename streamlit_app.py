@@ -4,7 +4,7 @@ import openai
 from openai import OpenAI
 from pinecone import Pinecone
 
-st.title('\\ MetLife Market Monitor')
+st.title('\\\\ MetLife Market Monitor')
 
 st.markdown(
     """
@@ -179,14 +179,14 @@ runner = ThreadRunner(index)
 
 
 
-def handle_query(user_query, response_container):
+def handle_query(user_query):
     if user_query:
         with st.container():
             st.write(f"**User**: {user_query}")
             pinecone_results = runner.query_pinecone(user_query)
             if pinecone_results:
                 ai_response = runner.generate_response(user_query, pinecone_results)
-                with response_container.container():
+                with st.container():
                     st.write(f"**Assistant**: {ai_response}")
                     first_sentence = ai_response.split('.')[0]
                     pin_response(user_query, first_sentence)
@@ -194,18 +194,13 @@ def handle_query(user_query, response_container):
                     # Generate and display follow-up question buttons
                     follow_up_questions = generate_follow_up_questions(ai_response)
                     for question in follow_up_questions:
-                        st.button(question, key=f"follow_up_{question}", on_click=handle_query, args=(question, response_container))
+                        st.button(question, key=f"follow_up_{question}", on_click=handle_query, args=(question,))
             else:
-                with response_container.container():
+                with st.container():
                     st.write("**Assistant**: No relevant documents found. Please refine your query or try different keywords.")
-
-st.title('//InvestmentInsider')
-
-# Create a placeholder for the generated content
-response_container = st.empty()
 
 user_query = st.chat_input("Enter your query:")
 if user_query:
-    handle_query(user_query, response_container)
+    handle_query(user_query)
 
 display_pinned_responses()
