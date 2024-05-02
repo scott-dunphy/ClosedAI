@@ -8,7 +8,7 @@ from tts import text_to_speech
 #st.title('\\\\ MetLife Market Monitor')
 
 if st.button("Generate audio"):
-    audio_buffer = text_to_speech("Hello world!")
+    audio_buffer = text_to_speech(st.session_state.message)
     st.audio(audio_buffer, format='audio/mpeg')
     
 st.markdown(
