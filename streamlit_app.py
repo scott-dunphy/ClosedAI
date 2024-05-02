@@ -34,6 +34,9 @@ pinned_responses = {
 if 'message' not in st.session_state:
     st.session_state.message = ""
 
+if 'ai_response' not in st.session_state:
+    st.session_state.ai_response = ""
+
 # Function to update the message
 def update_message(message):
     st.session_state.message = message
@@ -162,6 +165,7 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
+            st.session_state.ai_response = output
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
