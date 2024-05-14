@@ -157,7 +157,7 @@ class ThreadRunner:
         try:
             prompt = f"User Query: {user_query}\n\nRelevant Documents:\n{pinecone_results}\n\nAssistant:"
             completion_response = client.chat.completions.create(
-                model="gpt-4-turbo",
+                model="gpt-4o",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": prompt}
@@ -177,7 +177,7 @@ class ThreadRunner:
 def generate_follow_up_questions(ai_response):
     prompt = f"Based on the following response, generate two recommended follow-up questions (separate them with a '|'):\n\n{ai_response}\n\nFollow-up questions:"
     completion_response = client.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": "You are an AI consultant tasked with helping investment management firms identify opportunities."},
             {"role": "user", "content": prompt}
