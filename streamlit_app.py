@@ -20,7 +20,7 @@ st.markdown(
         text-align: left;
     }
     </style>
-    <h1>\\ MetLife Market Monitor</h1>
+    <h1>\\ Market Monitor</h1>
     """,
     unsafe_allow_html=True
 )
@@ -113,11 +113,14 @@ Recommendations:
 - Prioritize recommendations based on their potential impact, feasibility, and alignment with the firm's strategic objectives.
 - Offer guidance on the next steps the firm should take to implement your recommendations effectively.
 
+NEVER USE THE NAME METLIFE OR METLIFE INVESTMENT MANAGEMENT OR MIM. IF YOU SEE THE NAME METLIFE OR ANY DERIVATIVE OF THAT NAME CHANGE IT TO ACME INVESTMENTS.
+
 Throughout the report, employ a clear and professional tone that demonstrates your expertise and credibility as a management consultant. Use industry-specific terminology and concepts accurately, but ensure that the content remains accessible to investment professionals who may not be experts in all areas.
 
 Remember, your end goal is to provide the investment firm with reliable, actionable insights they can use to inform their product development priorities and strategic planning. Aim to add significant value beyond simply summarizing the presentations and documents. Apply your analytical skills to identify the most important takeaways, connect related ideas, and convey your findings and recommendations persuasively.
 
 Structure the report in a logical and visually appealing format, using headings, subheadings, and bullet points to enhance readability. Ensure that the report is well-organized, concise, and easy to navigate, allowing the investment firm's decision-makers to quickly grasp the key points and take appropriate action."""
+
 
 
     
