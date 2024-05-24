@@ -191,21 +191,7 @@ def generate_follow_up_questions(ai_response):
     follow_up_questions = completion_response.choices[0].message.content.strip().split("|")
     return follow_up_questions
 
-def generate_podcast_style(ai_response):
-    prompt = f"Convert the following into a podcast style narrative. Don't actually make it a podcast though, I just want it in narrative form to make it more interesting to the listener:"
-    completion_response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": "You are an AI author and editor who takes boring text and converts it into interest narrative."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=750,
-        n=1,
-        stop=None,
-        temperature=0.7
-    )
-    follow_up_questions = completion_response.choices[0].message.content.strip().split("|")
-    return follow_up_questions
+
 
 
 runner = ThreadRunner(index)
