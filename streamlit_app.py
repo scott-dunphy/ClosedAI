@@ -8,7 +8,7 @@ from tts import text_to_speech, generate_podcast_style
 #st.title('\\\\ MetLife Market Monitor')
 
 if st.button("Generate Podcast!"):
-    input = generate_podcast_style(st.session_state.ai_response)
+    input = generate_podcast(st.session_state.ai_response)
     audio_buffer = text_to_speech(input)
     st.audio(audio_buffer, format='audio/mpeg')
     
@@ -192,6 +192,21 @@ def generate_follow_up_questions(ai_response):
     return follow_up_questions
 
 
+def generate_podcast(ai_response):
+    prompt = f"Taking the following answer to a question and convert it into a narrative style that will be spoken by an AI voice.: {ai_response}"
+    completion_response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are an AI author and editor that makes compelling narratives based on facts."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=700,
+        n=1,
+        stop=None,
+        temperature=0.7
+    )
+    narrative_response = completion_response.choices[0].message.content.strip()
+    return narrative_response
 
 
 runner = ThreadRunner(index)
