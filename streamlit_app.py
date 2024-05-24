@@ -168,9 +168,7 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            podcast = generate_podcast(output)
-            st.write(podcast)
-            st.session_state.ai_response = podcast
+            st.session_state.ai_response = output
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
@@ -191,23 +189,6 @@ def generate_follow_up_questions(ai_response):
     )
     follow_up_questions = completion_response.choices[0].message.content.strip().split("|")
     return follow_up_questions
-
-
-def generate_podcast(ai_response):
-    prompt = f"Taking the following answer to a question and convert it into a narrative style that will be spoken by an AI voice. Condese it to no more than 4096 characters.: {ai_response}"
-    completion_response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": "You are an AI author and editor that makes compelling narratives based on facts."},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens=700,
-        n=1,
-        stop=None,
-        temperature=0.7
-    )
-    narrative_response = completion_response.choices[0].message.content.strip()
-    return narrative_response
 
 
 runner = ThreadRunner(index)
