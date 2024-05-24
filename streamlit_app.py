@@ -192,7 +192,7 @@ def generate_follow_up_questions(ai_response):
 
 
 def generate_podcast(ai_response):
-    prompt = f"Taking the following answer to a question and convert it into a narrative style that will be spoken by an AI voice.: {ai_response}"
+    prompt = f"Taking the following answer to a question and convert it into a narrative style that will be spoken by an AI voice. Condese it to no more than 4096 characters.: {ai_response}"
     completion_response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
