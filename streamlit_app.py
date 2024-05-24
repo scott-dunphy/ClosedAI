@@ -20,7 +20,7 @@ st.markdown(
         text-align: left;
     }
     </style>
-    <h1>\\ Market Monitor</h1>
+    <h1>\\\\ ProductIQ</h1>
     """,
     unsafe_allow_html=True
 )
