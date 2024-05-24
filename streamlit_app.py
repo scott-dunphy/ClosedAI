@@ -8,8 +8,7 @@ from tts import text_to_speech
 #st.title('\\\\ MetLife Market Monitor')
 
 if st.button("Generate Podcast!"):
-    input = generate_podcast(st.session_state.ai_response)
-    audio_buffer = text_to_speech(input)
+    audio_buffer = text_to_speech(st.session_state.ai_response)
     st.audio(audio_buffer, format='audio/mpeg')
     
 st.markdown(
@@ -169,7 +168,7 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            st.session_state.ai_response = output
+            st.session_state.ai_response = generate_podcast(output)
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
