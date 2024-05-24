@@ -4,6 +4,14 @@ from openai import OpenAI
 from io import BytesIO
 import os
 
+# Set up the API keys
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+openai.api_key = os.getenv("OPENAI_API_KEY")
+PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
+PINECONE_INDEX_NAME = st.secrets["PINECONE_INDEX_NAME"]
+
+client = OpenAI()
+
 def text_to_speech(text):
     client = OpenAI()
     
