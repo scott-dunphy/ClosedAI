@@ -168,7 +168,9 @@ class ThreadRunner:
                 temperature=0.2
             )
             output = completion_response.choices[0].message.content.strip()
-            st.session_state.ai_response = generate_podcast(output)
+            podcast = generate_podcast(output)
+            st.write(podcast)
+            st.session_state.ai_response = podcast
             return output
         except Exception as e:
             st.error(f"Error generating response: {str(e)}")
