@@ -5,7 +5,7 @@ from openai import OpenAI
 from pinecone import Pinecone
 from tts import text_to_speech
 
-#st.title('\\\\ MetLife Market Monitor')
+
 
 if st.button("Generate Podcast!"):
     audio_buffer = text_to_speech(st.session_state.ai_response)
@@ -112,8 +112,6 @@ Recommendations:
 - Provide clear and actionable recommendations for the investment firm to capitalize on the identified opportunities and navigate the evolving industry landscape.
 - Prioritize recommendations based on their potential impact, feasibility, and alignment with the firm's strategic objectives.
 - Offer guidance on the next steps the firm should take to implement your recommendations effectively.
-
-NEVER USE THE NAME METLIFE OR METLIFE INVESTMENT MANAGEMENT OR MIM. IF YOU SEE THE NAME METLIFE OR ANY DERIVATIVE OF THAT NAME CHANGE IT TO ACME INVESTMENTS.
 
 Throughout the report, employ a clear and professional tone that demonstrates your expertise and credibility as a management consultant. Use industry-specific terminology and concepts accurately, but ensure that the content remains accessible to investment professionals who may not be experts in all areas.
 
