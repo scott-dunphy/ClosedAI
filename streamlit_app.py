@@ -20,7 +20,7 @@ st.markdown(
         text-align: left;
     }
     </style>
-    <h1>\\\\ ProductIQ</h1>
+    <h1>\\\\ RE Competitive Intelligence Engine</h1>
     """,
     unsafe_allow_html=True
 )
